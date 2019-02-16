@@ -14,19 +14,17 @@ Usage
 ------------------
 
 ```bash
-#Step 1
 git clone https://github.com/51j0/Android-CertKiller.git
-#Step 2
 cd Android-CertKiller/
-#Step 3
-root$ python main.py
-------------------
+python main.py
+
 Options:
   -w  --wizard            #Extract APK from device
   -v  --verbose           #Verbose
   -p  --Path              #APK path
-  -d  --debuggable-mode   #Setting 'androd:debuggable' flag to true
-------------------
+  -h  --help              #Help
+  -d  --debugging-mode    #for setting android:debugging flag to true
+
 Example:
 root$ python main.py -w #(Wizard mode)
  #or
