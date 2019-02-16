@@ -4,32 +4,31 @@
 
 Script to **bypass** SSL/Certificate Pinning  in Android
 
-------------------
->Currently Supporting
-> * Bypassing the default CA Restrictions in  **Nougat & Above** [Read more](https://developer.android.com/training/articles/security-config)
+
+Currently Supporting
+
+ * Bypassing default CA Restrictions in  Nougat & Above [Read more](https://developer.android.com/training/articles/security-config)
 
 
-
-___
 Usage
 ------------------
 
-```bash
+```python
 git clone https://github.com/51j0/Android-CertKiller.git
 cd Android-CertKiller/
 
 root$ python main.py
 ------------------
 Options:
-  -w  --wizard            Extract APK From device
-  -v  --verbose           Verbose Mode
-  -p  --Path              APK path
-  -d  --debuggable-mode   Settng androd:debuggable flag to true
+  -w  --wizard            #Extract APK from device
+  -v  --verbose           #Verbose
+  -p  --Path              #APK path
+  -d  --debuggable-mode   #Setting 'androd:debuggable' flag to true
 ------------------
 Example:
-root$ python main.py -wd #(Wizard mode and For debuggable app)
+root$ python main.py -w #(Wizard mode)
  #or
-root$ python main.py  -vd -p 'root/Desktop/base.apk'
+root$ python main.py -p 'root/Desktop/base.apk' #(Manual mode)
 
 ```
 
