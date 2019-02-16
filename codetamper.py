@@ -1,7 +1,7 @@
 import sys, getopt, inspect, os, subprocess, re
 
 def mainfestdebuggable():
-    print '3. Setting android:debuggable flag to true'
+    print 'I. Setting android:debuggable flag to true'
     f=open("base/AndroidManifest.xml", "r")
     if f.mode != 'r':
         print 'Something went wrong'
@@ -15,10 +15,12 @@ def mainfestdebuggable():
     f=open("base/AndroidManifest.xml", "w+")
     f.write(contents)
     f.close()
+    print '   complete'
+    print '------------------------------'
 
 
 def usercertificate():
-    print '3. Applying SSL bypass'
+    print 'I. Applying SSL bypass'
     f=open("base/AndroidManifest.xml", "r")
     if f.mode != 'r':
         print 'Something went wrong'

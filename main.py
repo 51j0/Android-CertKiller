@@ -103,28 +103,28 @@ def runwizard():
     sys.exit(2)
 
 def extracting(package_name,workspace):
-    first   = '1. Intitaing APK extraction from device'
+    first   = 'I. Intitaing APK extraction from device'
     second  = '   complete'
     command = "adb pull "+package_name
     myCommand(first,command,second)
 
 
 def decompileApplication():
-    first   = '2. Decompiling'
+    first   = 'I. Decompiling'
     second  = '   complete'
     command = "java -jar "+myworkspace()+"/dependency/apktool.jar d -f base.apk"
     myCommand(first,command,second)
 
 
 def compileApplication():
-    first   = '4. Building New APK'
+    first   = 'I. Building New APK'
     second  = '   complete'
     command = "java -jar "+myworkspace()+"/dependency/apktool.jar b -f base"
     myCommand(first,command,second)
 
 def signApplication(path,mode):
     global millis
-    first   = '5. Sigining APK'
+    first   = 'I. Sigining APK'
     second  = '   complete'
     command = "jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore dependency/ssl-key.keystore -storepass android -keypass android "+path+" 51j0"
     myCommand(first,command,second)
