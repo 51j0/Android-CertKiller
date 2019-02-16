@@ -1,4 +1,3 @@
-
 ![alt text](https://raw.githubusercontent.com/51j0/Android-CertKiller/master/res/network.png "icon")
 ## Android-CertKiller
 ###### v0.1
@@ -28,10 +27,9 @@ Options:
   -d  --debuggable-mode   Settng androd:debuggable flag to true
 ------------------
 Example:
-root$ python main.py
- python main.py -wd #(Wizard mode and For debuggable app)
+root$ python main.py -wd #(Wizard mode and For debuggable app)
  #or
- python main.py  -vd -p 'root/Desktop/base.apk'
+root$ python main.py  -vd -p 'root/Desktop/base.apk'
 
 ```
 
