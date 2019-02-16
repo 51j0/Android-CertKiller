@@ -2,12 +2,12 @@
 ## Android-CertKiller
 ###### v0.1
 
-An automation script to **bypass** SSL/Certificate Pinning  in Android
+An automation script to **bypass SSL/Certificate pinning**  in Android
 
 
 Currently Supporting
 
- * Bypassing default CA Restrictions in  Nougat & Above [Read more](https://developer.android.com/training/articles/security-config)
+ * Bypassing default CA restrictions in Android Nougat & above [Read more](https://developer.android.com/training/articles/security-config)
 
 
 Usage
