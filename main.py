@@ -147,11 +147,11 @@ def signApplication(path,mode):
         myCommand_silent(command)
         command = "mv -f base.apk workspace/"+package[0]+millis+"/base.apk"
         myCommand_silent(command)
-        text = raw_input("Would you like to install the APK on your device(Y/n): ")
-        if text == 'n' or text == "N":
-            sys.exit(2)
-        else:
+        text = raw_input("Would you like to install the APK on your device(y/N): ")
+        if text == 'y' or text == "Y":
             installApplication(package[0])
+        else:
+            terminate("Thank you")
 
 
 def installApplication(package):
