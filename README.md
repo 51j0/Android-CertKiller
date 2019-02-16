@@ -13,7 +13,7 @@ Currently Supporting
 Usage
 ------------------
 
-```python
+```bash
 git clone https://github.com/51j0/Android-CertKiller.git
 cd Android-CertKiller/
 
