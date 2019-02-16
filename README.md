@@ -2,7 +2,7 @@
 ## Android-CertKiller
 ###### v0.1
 
-Script to **bypass** SSL/Certificate Pinning  in Android
+An automation script to **bypass** SSL/Certificate Pinning  in Android
 
 
 Currently Supporting
@@ -14,9 +14,11 @@ Usage
 ------------------
 
 ```bash
+#Step 1
 git clone https://github.com/51j0/Android-CertKiller.git
+#Step 2
 cd Android-CertKiller/
-
+#Step 3
 root$ python main.py
 ------------------
 Options:
