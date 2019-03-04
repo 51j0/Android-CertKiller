@@ -1,5 +1,20 @@
 import sys, getopt, inspect, os, subprocess, re
 
+
+def ifTestOnlyAPK(file):
+
+    val = True;
+    f=open(file, "r")
+    if f.mode != 'r':
+        print 'Something went wrong'
+        sys.exit(2)
+
+    contents = f.read()
+    if "android:testOnly" not in contents:
+        val = False;
+    f.close()
+    return val
+
 def mainfestdebuggable():
     print 'I. Setting android:debuggable flag to true'
     f=open("base/AndroidManifest.xml", "r")

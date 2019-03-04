@@ -3,6 +3,7 @@
 import sys, getopt, inspect, os, subprocess, re, time
 from codetamper import mainfestdebuggable
 from codetamper import usercertificate
+from codetamper import ifTestOnlyAPK
 
 millis              = str(int(round(time.time() * 1000)))
 AUTOMATION          = 1
@@ -165,7 +166,14 @@ def installApplication(package):
     if counts == 1:
         command = "adb uninstall "+package
         myCommand_silent(command)
+
+
     command = "adb install unpinnedapk/"+package+millis+"/base.apk"
+
+    isTestAPK = ifTestOnlyAPK("workspace/"+package+millis+"/base/AndroidManifest.xml")
+    if isTestAPK == True:
+        command = "adb install -t unpinnedapk/"+package+millis+"/base.apk"
+
     myCommand_silent(command)
     print '------------------------------'
     print 'Finished'
