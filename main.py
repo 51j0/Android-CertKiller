@@ -104,7 +104,7 @@ def runwizard():
     sys.exit(2)
 
 def extracting(package_name,workspace):
-    first   = 'I. Intitaing APK extraction from device'
+    first   = 'I. Initiating APK extraction from device'
     second  = '   complete'
     command = "adb pull "+package_name
     myCommand(first,command,second)
@@ -125,7 +125,7 @@ def compileApplication():
 
 def signApplication(path,mode):
     global millis
-    first   = 'I. Sigining APK'
+    first   = 'I. Signing APK'
     second  = '   complete'
     command = "jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore dependency/ssl-key.keystore -storepass android -keypass android "+path+" 51j0"
     myCommand(first,command,second)
@@ -182,12 +182,12 @@ def installApplication(package):
 def usage():
     print ''
     print 'root$ python main.py -w (Wizard Mode)'
-    print 'root$ python main.py -p /destop/base.apk  (Manual Mode)'
+    print 'root$ python main.py -p /desktop/base.apk  (Manual Mode)'
     print ''
     print  '\r -w  --wizard\t        Extract APK From device'
     print  '\r -v  --verbose\t        Verbose Mode'
     print  '\r -p  --Path\t        APK path'
-    print  '\r -d  --debuggable mode\tSettng androd:debuggable flag to true'
+    print  '\r -d  --debuggable mode\tSetting android:debuggable flag to true'
     print ''
 
 def main(argv):
@@ -225,7 +225,7 @@ def main(argv):
     if wizard == True :
         runwizard()
     else:
-        intro('CertKiller Mannual Mode')
+        intro('CertKiller Manual Mode')
         command = "cp "+path+" ."
         myCommand_silent(command)
         decompileApplication()
