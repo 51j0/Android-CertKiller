@@ -16,7 +16,7 @@ def ifTestOnlyAPK(file):
     return val
 
 def mainfestdebuggable():
-    print 'I. Setting android:debuggable flag to true'
+    print 'I: Setting android:debuggable flag to true'
     f=open("base/AndroidManifest.xml", "r")
     if f.mode != 'r':
         print 'Something went wrong'
@@ -35,7 +35,7 @@ def mainfestdebuggable():
 
 
 def usercertificate():
-    print 'I. Applying SSL bypass'
+    print 'I: Applying SSL bypass'
     f=open("base/AndroidManifest.xml", "r")
     if f.mode != 'r':
         print 'Something went wrong'
@@ -56,9 +56,10 @@ def usercertificate():
     print '------------------------------'
 
 def createConfigFile():
+    dirName = "base/res/xml"
     if not os.path.exists("base/res/xml"):
         os.mkdir(dirName)
-        print("Directory " , dirName ,  " Created ")
+        print("I: Directory '"+dirName+"' Created")
 
     f=open("dependency/networkSecurityConfig.xml", "r")
     contents = f.read()
