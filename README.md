@@ -1,6 +1,6 @@
 ![alt text](https://raw.githubusercontent.com/51j0/Android-CertKiller/master/res/network.png "icon")
 ## Android-CertKiller
-###### v0.1
+###### v0.5
 
 An automation script to **bypass SSL/Certificate pinning**  in Android
 
