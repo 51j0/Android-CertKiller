@@ -6,6 +6,7 @@ from codetamper import usercertificate
 from codetamper import ifTestOnlyAPK
 
 millis              = str(int(round(time.time() * 1000)))
+SUCCESS             = 0
 AUTOMATION          = 1
 MANNUAL             = 2
 verbose             = False
@@ -26,18 +27,23 @@ def myCommand_silent(command):
 
 
 
+
 def myCommand(text,command,second):
     print text
     #global verbose
     if verbose == False:
         FNULL = open(os.devnull, 'w')
-        process = subprocess.call(command, shell=True,stdout=FNULL, stderr=subprocess.STDOUT)
+        process = subprocess.Popen(command, shell=True,stdout=FNULL, stderr=subprocess.STDOUT)
     else:
         print '------------------------------'
-        process = subprocess.call(command, shell=True)
+        process = subprocess.Popen(command, shell=True)
         print '*******************************'
     print second
     print '------------------------------'
+
+    process.communicate()
+    if process.returncode != SUCCESS:
+        terminate("/n Could not proceed further at "+command+". Raise a ticket=> https://github.com/51j0/Android-CertKiller/issues/new")
 
 def terminate(var):
     print var
@@ -54,10 +60,16 @@ def intro(var):
 
 def getRealPackageName(package_name):
     #SEARCHING FOR PACKAGE
+    global SUCCESS
 
     command = "adb shell pm list packages -f "+package_name
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=None, shell=True)
     output = process.communicate()
+
+    if process.returncode != SUCCESS:
+        print 'Something went wrong (ER_Ox1001)'
+        sys.exit(2)
+
     orginal_package_name = output[0]
     counts = orginal_package_name.count('\n')
 
@@ -65,22 +77,22 @@ def getRealPackageName(package_name):
         print orginal_package_name
         print "\n---------------------------------------"
         print "Found "+str(counts)+" packages"
-        text = raw_input("Enter the correct package name: ")
-        if text == '':
-            terminate("Ending script")
-        else:
-            orginal_package_name = getRealPackageName(text);
+        return ""
     elif counts == 0:
         print "\n---------------------------------------"
-        text = raw_input("No application found with the given package name.\nEnter a correct package name: ")
-        if text == '':
+        text = raw_input("No application found with the given package name. Do you want to Continue(y/N) ")
+        if text == '' or text == 'N' or text == 'n':
             terminate("Ending script")
         else:
-            orginal_package_name = getRealPackageName(text);
+            return ""
 
 
+
+    print '--------------sijo'
+    print orginal_package_name
     start_index = 8
-    final_index = orginal_package_name.rfind('=')
+    final_index = orginal_package_name.rfind('base.apk=')+8
+    print str(start_index)+":"+str(final_index)
     package_path = orginal_package_name[start_index:final_index]
     package_path = package_path.replace("\n", "")
     package_path = package_path.replace("\r", "")
@@ -88,20 +100,35 @@ def getRealPackageName(package_name):
 
 def runwizard():
     intro('CertKiller Wizard Mode')
-    os.system("adb devices")
-    os.system("echo '---------------------------------\n'")
+    command = "adb devices -l"
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=None, shell=True)
+    output = process.communicate()
+    print output[0]
+
+    if process.returncode != SUCCESS:
+        terminate("Could not proceed further please reinstall ADB")
+    #os.system("adb devices")
+    #os.system("echo '---------------------------------\n'")
     package_name = raw_input("Enter Application Package Name: ")
     package_name = getRealPackageName(package_name)
-    os.system("echo '\nPackage: "+package_name+"\n'")
-    extracting(package_name,'A')
-    decompileApplication()
-    if debuggable_mode == True:
-        mainfestdebuggable()
-    usercertificate()
-    compileApplication()
-    signApplication("base/dist/base.apk",1)
-    installApplication()
-    sys.exit(2)
+    while package_name == '':
+        package_name = raw_input("Enter Application Package Name: ")
+        package_name = getRealPackageName(package_name)
+
+    print "my packages "+package_name
+    if package_name != '':
+        os.system("echo '\nPackage: "+package_name+"\n'")
+        extracting(package_name,'A')
+        decompileApplication()
+        if debuggable_mode == True:
+            mainfestdebuggable()
+        usercertificate()
+        compileApplication()
+        signApplication("base/dist/base.apk",1)
+        installApplication()
+        sys.exit(2)
+    else:
+        terminate("Package Not Found")
 
 def extracting(package_name,workspace):
     first   = 'I. Initiating APK extraction from device'
@@ -161,6 +188,9 @@ def installApplication(package):
     command = "adb shell pm list packages | grep "+package
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=None, shell=True)
     output = process.communicate()
+    if process.returncode != SUCCESS:
+        terminate("Could not install. Please check")
+
     orginal_package_name = output[0]
     counts = orginal_package_name.count('\n')
     if counts == 1:
@@ -188,6 +218,7 @@ def usage():
     print  '\r -v  --verbose\t        Verbose Mode'
     print  '\r -p  --Path\t        APK path'
     print  '\r -d  --debuggable mode\tSetting android:debuggable flag to true'
+    #print  '\r -o  --output\t Output Directory for modified APK'
     print ''
 
 def main(argv):
@@ -218,7 +249,7 @@ def main(argv):
 
 
     if(len(opts) == 0):
-        print "\nRunning in default mode:\n"
+        #print "\nRunning in default mode:\n"
         runwizard()
 
 
@@ -226,7 +257,7 @@ def main(argv):
         runwizard()
     else:
         intro('CertKiller Manual Mode')
-        command = "cp "+path+" ."
+        command = "cp "+path+" base.apk"
         myCommand_silent(command)
         decompileApplication()
         usercertificate()
