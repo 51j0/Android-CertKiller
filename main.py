@@ -154,7 +154,7 @@ def signApplication(path,mode):
     global millis
     first   = 'I. Signing APK'
     second  = '   complete'
-    command = "jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore dependency/ssl-key.keystore -storepass android -keypass android "+path+" 51j0"
+    command = "jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore "+myworkspace()+"/dependency/ssl-key.keystore -storepass android -keypass android "+path+" 51j0"
     myCommand(first,command,second)
 
     f=open("base/AndroidManifest.xml", "r")
@@ -165,15 +165,15 @@ def signApplication(path,mode):
 
     if mode == AUTOMATION:
         print
-        command = 'mkdir unpinnedapk/'+package[0]+millis+'/'
+        command = 'mkdir '+myworkspace()+'/unpinnedapk/'+package[0]+millis+'/'
         myCommand_silent(command)
-        command = 'mkdir workspace/'+package[0]+millis+'/'
+        command = 'mkdir '+myworkspace()+'/workspace/'+package[0]+millis+'/'
         myCommand_silent(command)
-        command = "mv -f base/dist/base.apk unpinnedapk/"+package[0]+millis+"/base.apk"
+        command = "mv -f base/dist/base.apk "+myworkspace()+"/unpinnedapk/"+package[0]+millis+"/base.apk"
         myCommand_silent(command)
-        command = "mv -f base workspace/"+package[0]+millis+"/"
+        command = "mv -f base "+myworkspace()+"/workspace/"+package[0]+millis+"/"
         myCommand_silent(command)
-        command = "mv -f base.apk workspace/"+package[0]+millis+"/base.apk"
+        command = "mv -f base.apk "+myworkspace()+"/workspace/"+package[0]+millis+"/base.apk"
         myCommand_silent(command)
         text = raw_input("Would you like to install the APK on your device(y/N): ")
         if text == 'y' or text == "Y":
@@ -186,7 +186,7 @@ def installApplication(package):
     global millis
     print '------------------------------------\n Installing Unpinned APK'
     command = "adb shell pm list packages | grep "+package
-    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=None, shell=True)
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
     output = process.communicate()
     if process.returncode != SUCCESS:
         terminate("Could not install. Please check")
@@ -198,11 +198,11 @@ def installApplication(package):
         myCommand_silent(command)
 
 
-    command = "adb install unpinnedapk/"+package+millis+"/base.apk"
+    command = "adb install "+myworkspace()+"/unpinnedapk/"+package+millis+"/base.apk"
 
-    isTestAPK = ifTestOnlyAPK("workspace/"+package+millis+"/base/AndroidManifest.xml")
+    isTestAPK = ifTestOnlyAPK(myworkspace()+"/workspace/"+package+millis+"/base/AndroidManifest.xml")
     if isTestAPK == True:
-        command = "adb install -t unpinnedapk/"+package+millis+"/base.apk"
+        command = "adb install -t "+myworkspace()+"/unpinnedapk/"+package+millis+"/base.apk"
 
     myCommand_silent(command)
     print '------------------------------'
