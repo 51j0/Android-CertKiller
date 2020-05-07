@@ -5,6 +5,11 @@
 An automation script to **bypass SSL/Certificate pinning**  in Android
 
 
+Requirements
+- Java 8 (JRE 1.8)
+- Basic knowledge of Android SDK, AAPT and smali
+
+
 Currently Supporting
 
  * Bypassing default CA restrictions in Android Nougat & above [Read more](https://developer.android.com/training/articles/security-config)
