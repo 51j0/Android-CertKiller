@@ -1,12 +1,13 @@
 ![alt text](https://raw.githubusercontent.com/51j0/Android-CertKiller/master/res/network.png "icon")
 ## Android-CertKiller
-###### v0.5
+###### v1.0
 
 An automation script to **bypass SSL/Certificate pinning**  in Android
 
 
 Requirements
 - Java 8 (JRE 1.8)
+- Python3
 - Basic knowledge of Android SDK, AAPT and smali
 
 
