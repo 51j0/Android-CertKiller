@@ -33,5 +33,5 @@ adb = Adb("grab")
 print(adb.uninstall())
 
 #Fetch APK
-adb = Adb("alan.apk")
+adb = Adb("51j0.apk")
 print(adb.install())
