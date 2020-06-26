@@ -26,8 +26,6 @@ def myCommand_silent(command):
         print '------------------------------'
 
 
-
-
 def myCommand(text,command,second):
     print text
     #global verbose
