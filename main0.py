@@ -1,5 +1,6 @@
 import optparse
 from adb import Adb
+from apktool import Apktool
 
 
 # parser = optparse.OptionParser()
@@ -12,26 +13,39 @@ from adb import Adb
 # options, remainder = parser.parse_args()
 
 
-#Package name
-adb = Adb("grab")
-print(adb.packagename())
+val = False
 
-#Package path
-adb = Adb("grab")
-print(adb.getPackagePath())
+if val:
+    #Package name
+    adb = Adb("grab")
+    print(adb.packagename())
 
-#Input Text
-adb = Adb("grab")
-print(adb.inputext())
+    #Package path
+    adb = Adb("grab")
+    print(adb.getPackagePath())
 
-#Fetch APK
-adb = Adb("grab")
-print(adb.fetchApk("alan.apk"))
+    #Input Text
+    adb = Adb("grab")
+    print(adb.inputext())
 
-#Fetch APK
-adb = Adb("grab")
-print(adb.uninstall())
+    #Fetch APK
+    adb = Adb("grab")
+    print(adb.fetchApk("alan.apk"))
 
-#Fetch APK
-adb = Adb("51j0.apk")
-print(adb.install())
+    #Fetch APK
+    adb = Adb("grab")
+    print(adb.uninstall())
+
+    #Fetch APK
+    adb = Adb("51j0.apk")
+    print(adb.install())
+
+    apktool = Apktool("alan.apk")
+    print(apktool.decompile())
+
+
+    apktool = Apktool("alan")
+    print(apktool.compile())
+
+    apktool = Apktool("alan/dist/alan.apk")
+    print(apktool.sign())
