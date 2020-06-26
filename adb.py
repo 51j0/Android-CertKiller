@@ -1,28 +1,15 @@
 import subprocess
 from subprocess import Popen
+from logger import logging
 from io import StringIO
 import sys
 import os
-import logging
-
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-                    datefmt='%m-%d %H:%M',
-                    filename='myapp.log',
-                    filemode='w')
-
-console = logging.StreamHandler()
-console.setLevel(logging.INFO)
-formatter = logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s')
-console.setFormatter(formatter)
-logging.getLogger('').addHandler(console)
-logger1 = logging.getLogger('adb')
-
 
 class Adb:
 
     def __init__(self,value):
         self.value = value
+        self.logger = logging.getLogger('adb')
 
     @staticmethod
     def execute(command):
@@ -32,9 +19,9 @@ class Adb:
         returncode = cp.returncode
 
         #logger1.debug(command)
-        logger1.debug(error)
-        logger1.debug(output)
-        logger1.debug(returncode)
+        self.logger.debug(error)
+        self.logger.debug(output)
+        self.logger.debug(returncode)
 
         if returncode == 1:
             return error
