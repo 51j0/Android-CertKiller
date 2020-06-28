@@ -11,8 +11,7 @@ class Adb:
         self.value = value
         self.logger = logging.getLogger('adb')
 
-    @staticmethod
-    def execute(command):
+    def execute(self,command):
         cp = subprocess.run(command,universal_newlines=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         error = cp.stderr
         output = cp.stdout
@@ -57,11 +56,21 @@ class Adb:
 
     def uninstall(self):
         packagename = self.packagename()
-        command = ["adb","uninstall",packagename]
-        value = self.execute(command)
+        if(packagename != ''):
+            text = input("Would you like to uninstall %s from your device (y/N): "%packagename)
+            if text == 'y' or text == "Y":
+                command = ["adb","uninstall",packagename]
+                value = self.execute(command)
+            else:
+                sys.exit(2)
+        else:
+            print("Error couldn't find any package")
         return value
 
     def install(self):
-        command = command = ["adb","install",self.value]
-        value = self.execute(command)
+        if self.value.endswith('.apk'):
+            command = command = ["adb","install",self.value]
+            value = self.execute(command)
+        else:
+            value = "%s doesn't look like a valid APK"%value
         return value

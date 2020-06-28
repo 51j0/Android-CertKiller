@@ -8,8 +8,8 @@ from logger import logging
 
 class Apktool:
 
-    def __init__(self,input):
-        self.input = input
+    def __init__(self,value):
+        self.value = value
         self.workspace = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
         self.logger = logging.getLogger('apktool')
 
@@ -21,19 +21,26 @@ class Apktool:
         self.logger.debug(output.returncode)
         if output.returncode != 0:
              return "error"
-        return 0
+        return "Success"
 
     def compile(self):
-        command = ["java","-jar","dependency/apktool.jar","b","-f",self.input]
+        command = ["java","-jar","dependency/apktool.jar","b","-f",self.value]
         value = self.execute(command)
         return value
 
     def decompile(self):
-        command = ["java","-jar","dependency/apktool.jar","d","-f",self.input]
-        value = self.execute(command)
-        return value
+        if self.value.endswith('.apk'):
+            command = ["java","-jar","dependency/apktool.jar","d","-f",self.value]
+            output = self.execute(command)
+        else:
+            output = "%s doesn't look like a valid APK"%self.value
+        return output
+
 
     def sign(self):
-        command = ["jarsigner","-verbose","-sigalg","SHA1withRSA","-digestalg","SHA1","-keystore","dependency/ssl-key.keystore","-storepass","android","-keypass","android",self.input,"51j0"]
-        value = self.execute(command)
-        return value
+        if self.value.endswith('.apk'):
+            command = ["jarsigner","-verbose","-sigalg","SHA1withRSA","-digestalg","SHA1","-keystore","dependency/ssl-key.keystore","-storepass","android","-keypass","android",self.value,"51j0"]
+            output = self.execute(command)
+        else:
+            output = "%s doesn't look like a valid APK"%self.value
+        return output
