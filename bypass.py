@@ -1,4 +1,6 @@
 import sys
+import re
+import os
 from logger import logging
 
 class Bypass:
@@ -8,43 +10,56 @@ class Bypass:
         self.logger = logging.getLogger('adb')
 
     def udpateNetworkSecurityConfig(self):
-        f=open(self.input+"/AndroidManifest.xml", "r")
-        if f.mode != 'r':
-            print("Error l100000x.1")
-            sys.exit(2)
-        contents = f.read()
-        if "android:networkSecurityConfig" not in contents:
-            contents = contents.replace("<application", "<application android:networkSecurityConfig=\"@xml/networkSecurityConfig\"")
-        else:
-            result = re.sub('android:networkSecurityConfig="(.*?)"',  'android:networkSecurityConfig="@xml/networkSecurityConfig"',    contents)
-            contents = result
-        f.close()
-        f=open(self.input+"/AndroidManifest.xml", "w+")
-        f.write(contents)
-        f.close()
+        print("I: Searching AndroidManifest")
+        if(self.validFolder()):
+            print("I: Updating AndroidManifest")
+            f=open(self.input+"/AndroidManifest.xml", "r")
+            contents = f.read()
+            if "android:networkSecurityConfig" not in contents:
+                contents = contents.replace("<application", "<application android:networkSecurityConfig=\"@xml/networkSecurityConfig\"")
+            else:
+                result = re.sub('android:networkSecurityConfig="(.*?)"',  'android:networkSecurityConfig="@xml/networkSecurityConfig"',    contents)
+                contents = result
+            f.close()
+            f=open(self.input+"/AndroidManifest.xml", "w+")
+            f.write(contents)
+            f.close()
+            print("I: AndroidManifest Updated")
 
-        dirName = self.input+"/res/xml"
-        if not os.path.exists(dirName):
-            os.mkdir(dirName)
+            dirName = self.input+"/res/xml"
+            if not os.path.exists(dirName):
+                os.mkdir(dirName)
 
-        f=open("dependency/networkSecurityConfig.xml", "r")
-        contents = f.read()
-        f.close()
-        f=open("base/res/xml/networkSecurityConfig.xml", "w+")
-        f.write(contents)
-        f.close()
+            print("I: Updating networkSecurityConfig")
+            f=open("dependency/networkSecurityConfig.xml", "r")
+            contents = f.read()
+            f.close()
+            f=open(self.input+"/res/xml/networkSecurityConfig.xml", "w+")
+            f.write(contents)
+            f.close()
+            print("I: Complete")
 
     def mainfestdebuggable(self):
+        print("I: Searching AndroidManifest")
+        if(self.validFolder()):
+            print("I: Updating AndroidManifest")
+            f=open(self.input+"/AndroidManifest.xml", "r")
+            contents = f.read()
+            if "android:debuggable" not in contents:
+                contents = contents.replace("<application", "<application android:debuggable=\"true\"")
+            elif "android:debuggable=\"false\"" in contents:
+                contents = contents.replace("android:debuggable=\"false\"", "android:debuggable=\"true\"")
+            f.close()
+            f=open(self.input+"base/AndroidManifest.xml", "w+")
+            print("I: AndroidManifest Updated")
+            print("I: android:debuggable flag added")
+            f.write(contents)
+            f.close()
+
+    def validFolder(self):
         f=open(self.input+"/AndroidManifest.xml", "r")
         if f.mode != 'r':
             print("Error l100000x.2")
-            sys.exit(2)
-        contents = f.read()
-        if "android:debuggable" not in contents:
-            contents = contents.replace("<application", "<application android:debuggable=\"true\"")
-        elif "android:debuggable=\"false\"" in contents:
-            contents = contents.replace("android:debuggable=\"false\"", "android:debuggable=\"true\"")
+            return False
         f.close()
-        f=open("base/AndroidManifest.xml", "w+")
-        f.write(contents)
-        f.close()
+        return True
