@@ -1,7 +1,7 @@
 import sys
 import re
 import os
-from logger import logging
+from logger import logging,config
 
 class Bypass:
 
@@ -31,7 +31,7 @@ class Bypass:
                 os.mkdir(dirName)
 
             print("I: Updating networkSecurityConfig")
-            f=open("dependency/networkSecurityConfig.xml", "r")
+            f=open(config['network'], "r")
             contents = f.read()
             f.close()
             f=open(self.input+"/res/xml/networkSecurityConfig.xml", "w+")
