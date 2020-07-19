@@ -11,6 +11,7 @@ class Adb:
         self.value = value
         self.logger = logging.getLogger('adb')
 
+
     def execute(self,command):
         cp = subprocess.run(command,universal_newlines=True,stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         error = cp.stderr
@@ -45,6 +46,8 @@ class Adb:
         return package_path
 
     def inputext(self):
+        command = ["adb","shell","input","keyevent","KEYCODE_WAKEUP"]
+        self.execute(command)
         command = ["adb","shell","input","text",self.value]
         self.execute(command)
 

@@ -4,7 +4,7 @@ from io import StringIO
 import sys
 import os
 import inspect
-from logger import logging
+from logger import logging,config
 
 class Apktool:
 
@@ -24,22 +24,21 @@ class Apktool:
         return "Success"
 
     def compile(self):
-        command = ["java","-jar","dependency/apktool.jar","b","-f",self.value]
+        command = ["java","-jar",config['apktool'],"b","-f",self.value]
         value = self.execute(command)
         return value
 
     def decompile(self):
         if self.value.endswith('.apk'):
-            command = ["java","-jar","dependency/apktool.jar","d","-f",self.value]
+            command = ["java","-jar",config['apktool'],"d","-f",self.value]
             output = self.execute(command)
         else:
             output = "%s doesn't look like a valid APK"%self.value
         return output
 
-
     def sign(self):
         if self.value.endswith('.apk'):
-            command = ["jarsigner","-verbose","-sigalg","SHA1withRSA","-digestalg","SHA1","-keystore","dependency/ssl-key.keystore","-storepass","android","-keypass","android",self.value,"51j0"]
+            command = ["jarsigner","-verbose","-sigalg","SHA1withRSA","-digestalg","SHA1","-keystore",config['keystore'],"-storepass","android","-keypass","android",self.value,"51j0"]
             output = self.execute(command)
         else:
             output = "%s doesn't look like a valid APK"%self.value

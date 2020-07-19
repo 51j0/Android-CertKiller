@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import optparse
 from adb import Adb
 from apktool import Apktool
@@ -15,6 +17,7 @@ parser.add_option('-s','--sign', dest="sign",default="none")
 parser.add_option('-l','--look', dest="look",default="none")
 parser.add_option('-b','--bypass', dest="bypass",default="none")
 parser.add_option('-u','--unlock',dest="unlock",action="store",default="none")
+parser.add_option('-x','--setup',dest="setup",action="store",default="none")
 #parser.add_option('-h','--help', default="auto")
 options, remainder = parser.parse_args()
 
@@ -73,9 +76,12 @@ elif options.install != 'none':
     adb = Adb(options.install)
     print(adb.install())
 elif options.uninstall != 'none':
-    adb = Adb(value)
+    adb = Adb(options.uninstall)
     print(adb.uninstall())
-elif options.look != 'none':
+elif options.look != 'none':#SET PATH
+
+
+
     value = options.look
     adb = Adb(value)
     name = adb.packagename()
@@ -109,8 +115,7 @@ elif options.decompile != "none":
 elif options.sign != "none":
     apktool = Apktool(options.sign)
     print(apktool.sign())
-
 else:
-    print("Unknown Option")
+    print("Invalid Option")
 
 #print(options)
